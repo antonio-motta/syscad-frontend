@@ -1,0 +1,131 @@
+<!-- Page content -->
+<div fxLayoutAlign="center" class="basic-container" >
+    <mat-card>
+        <mat-card-title fxLayoutAlign="center">Cadastrar/Editar</mat-card-title>
+        <mat-card-subtitle fxLayoutAlign="center">Pessoa Física</mat-card-subtitle>
+        <mat-divider></mat-divider>
+        <br>
+  
+        
+        <form [formGroup]="form" novalidate >
+            <input matInput fxShow="false" formControlName="id" >
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item>
+                        <mat-form-field class="width-field-30" >                             
+                            <input matInput placeholder="Nome" maxlength="80" formControlName="name" required>
+                        </mat-form-field>
+                    </mat-list-item>
+                    
+                    <mat-list-item>
+                        <mat-form-field class="width-field-30" > 
+                            <input matInput placeholder="E-mail" formControlName="email" required>
+                        </mat-form-field>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <mat-form-field class="width-field-20 margin-field" > 
+                            <input matInput placeholder="CPF" formControlName="cpf" maxlength="14" masked-input="999.999.999-99" required>
+                        </mat-form-field>
+                        
+                        <mat-form-field class="width-field-10"  > 
+                            <input matInput [matDatepicker]="birthday" maxlength="10"  disabled placeholder="Nascimento" formControlName="birthday">
+                        <mat-datepicker-toggle matSuffix 
+                            [for]="birthday"></mat-datepicker-toggle>
+                        <mat-datepicker touchUi="true" disabled="false" #birthday></mat-datepicker>
+                        </mat-form-field>
+                    </mat-list-item>
+                </mat-list>
+                <mat-card formArrayName="phones">
+                    <label fxLayoutAlign="center">Telefones</label>
+                    <div *ngFor="let unit of form.get('phones')['controls']; let i=index">
+                        <mat-divider *ngIf="form.get('phones')['controls'].length > 1 && i > 0" ></mat-divider><br>
+                        <div [formGroupName]="i">
+                            <input matInput fxShow="false" formControlName="id" >
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="center">
+                                <mat-form-field  class="width-field-20"> 
+                                    <input matInput placeholder="Numero" maxlength="15" masked-input="(99) 99999-9999" formControlName="phone" required>
+                                </mat-form-field>
+                                <button  *ngIf="form.get('phones')['controls'].length > 1" type="button" mat-mini-fab color="warn" fxFlex="nogrow"
+                                         (click)="removePhones(i)">
+                                    <mat-icon>delete forever</mat-icon>
+                                </button>
+                          </div>
+                            <br>
+                        </div>
+                    </div>
+                    <br>
+                    <mat-card-actions fxLayoutAlign="center">
+                        <button type="button" mat-raised-button (click)="addPhones()">
+                            <mat-icon>add box</mat-icon>  Adicionar outro telefone
+                        </button>
+                        <button type="button" mat-raised-button (click)="clearAllPhones()">
+                            <mat-icon>remove_circle</mat-icon>  Apagar todos
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+                <br>
+                <mat-card formArrayName="address">
+                    <label fxLayoutAlign="center">Endereços</label>
+                    <div *ngFor="let unit of form.get('address')['controls']; let i=index">
+                        <mat-divider *ngIf="form.get('address')['controls'].length > 1 && i > 0" ></mat-divider><br>
+                        <div [formGroupName]="i">
+                            <input matInput fxShow="false" formControlName="id" >
+                            <mat-list-item>
+                                <mat-form-field class="width-field-25 margin-field"  > 
+                                    <input matInput placeholder="Logradouro" formControlName="street" required>
+                                </mat-form-field>
+                                <mat-form-field class="width-field-5"> 
+                                    <input matInput placeholder="CEP" masked-input="99.999-999" formControlName="cep" required>
+                                </mat-form-field>
+                            </mat-list-item>
+                           
+                            <mat-list-item>
+                                <mat-form-field class="width-field-15 margin-field" > 
+                                    <input matInput placeholder="Bairro" formControlName="neighborhood" required>
+                                </mat-form-field>
+                                <mat-form-field class="width-field-10 margin-field" > 
+                                    <input matInput placeholder="Cidade" formControlName="city" required>
+                                </mat-form-field>
+                                <mat-form-field class="width-field-5" > 
+                                    <input matInput placeholder="UF" formControlName="uf" required>
+                                </mat-form-field>
+                            </mat-list-item>
+                            <mat-list-item *ngIf="form.get('address')['controls'].length > 1" fxLayoutAlign="center">
+                                <button type="button" mat-raised-button color="warn" fxFlex="nogrow"
+                                         (click)="removeAddress(i)">
+                                    <mat-icon>delete forever</mat-icon>
+                                    Excluir Endereço
+                                </button>
+                            </mat-list-item>
+                            <br>
+                        </div>
+                    </div>
+                    <br>
+                    <mat-card-actions fxLayoutAlign="center">
+                        <button type="button" mat-raised-button (click)="addAddress()">
+                            <mat-icon>add box</mat-icon>  Adicionar outro endereço
+                        </button>
+                        <button type="button" mat-raised-button (click)="clearAllAddress()">
+                            <mat-icon>remove_circle</mat-icon>  Apagar tdos
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+                <br>
+                
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="saveOrUpdate()">
+                    Cadastrar
+                </button>
+                &nbsp;
+                <a mat-raised-button routerLink="/person">Voltar</a>
+            </mat-card-actions>
+        </form> <!-- Page form end -->
+    </mat-card>
+</div>
+
+  
+  
+  
+  
+  
