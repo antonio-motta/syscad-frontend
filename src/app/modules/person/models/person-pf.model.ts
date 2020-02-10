@@ -7,6 +7,7 @@ export class PersonPf {
         public nome: string,
         public email: string,
         public birthday: string,
+        public createdAt: string,
         public address: Array<Address> = [],
         public phones: Array<Phone> = []
     ){}

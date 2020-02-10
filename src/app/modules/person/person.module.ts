@@ -5,10 +5,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -22,20 +24,22 @@ import {
   PersonListComponent, 
   PersonEditComponent, 
   PersonDetailsComponent, 
-  PersonComponent
+  PersonComponent,
+  ConfirmarDialog
 } from './components';
 
 import { SharedModule } from '../shared';
 
 import { PersonService} from './services';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+
   
 @NgModule({
   declarations: [
     PersonListComponent, 
     PersonEditComponent, 
     PersonDetailsComponent, 
-    PersonComponent
+    PersonComponent,
+    ConfirmarDialog
   ],
   imports: [
     CommonModule,
@@ -51,6 +55,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatSnackBarModule,
     MatToolbarModule,
     MatCardModule,
+    MatTableModule,
+    MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
     TextMaskModule,
@@ -58,6 +64,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
   ],
   providers: [
     PersonService,
-    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }]
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }],
+    entryComponents: [ ConfirmarDialog ]
 })
 export class PersonModule { }

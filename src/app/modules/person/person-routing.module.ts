@@ -9,8 +9,9 @@ export const PersonRoutes: Routes = [
 		component: PersonComponent,
 		children: [
 			{ path: '', component: PersonListComponent },
-			{ path: 'edit', component: PersonEditComponent },
-			{ path: 'details', component: PersonEditComponent }
+			{ path: 'create', component: PersonEditComponent },
+			{ path: 'edit/:id', component: PersonEditComponent },
+			{ path: 'details/:id', component: PersonEditComponent }
 		]
 	}
 ];

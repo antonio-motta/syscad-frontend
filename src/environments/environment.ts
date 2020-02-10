@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseApiUrl: 'http://localhost:8084/api/'
+  baseApiUrl: 'http://localhost:8084/syscad/api'
 };
 
 /*
