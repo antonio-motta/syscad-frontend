@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 
 import { PersonPf }  from '../../models';
+import { CpfValidator } from '../../../shared';
+import { PersonService } from '../../services';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-person-edit',
@@ -13,11 +15,14 @@ import { PersonPf }  from '../../models';
 export class PersonEditComponent implements OnInit {
 
   form: FormGroup;
-  myFormValueChanges$;
+  
+  datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
+
   constructor(
-  	private fb: FormBuilder, 
+    private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private router: Router) { }
+    private router: Router,
+    private personService: PersonService) { }
 
   ngOnInit(): void {
     this.generateForm();
@@ -27,9 +32,9 @@ export class PersonEditComponent implements OnInit {
   generateForm() {
       this.form = this.fb.group({
         name: ['', [Validators.required,Validators.maxLength(25)]],
-        cpf: [''],
-        email: [''],
-        birthday: [''],
+        cpf: ['', [Validators.required, CpfValidator]],
+        email: ['', [Validators.required]],
+        birthday: ['', [Validators.required]],
         address: this.fb.array([
            this.getAddress()
         ]),
@@ -43,18 +48,37 @@ export class PersonEditComponent implements OnInit {
   }
 
   save(){
-    const person : PersonPf = this.form.value;
-    alert(JSON.stringify(this.form.value));
+    if (this.form.invalid) {
+      return;
+    }
+
+    const person: PersonPf = this.form.value;
+    this.personService.save(person)
+      .subscribe(
+        data => {
+          const msg: string = "Cadastro realizado com sucesso!";
+          this.snackBar.open(msg, "Sucesso", { duration: 5000 });
+          this.router.navigate(['/person']);
+        },
+        err => {
+          let msg: string = "Tente novamente em instantes.";
+          if (err.status == 400) {
+            msg = err.error.errors.join(' ');
+          }
+          this.snackBar.open(msg, "Erro", { duration: 5000 });
+        }
+      );
+  	return false;
   }
 
   private getAddress() {
     const numberPatern = '^[0-9.,]+$';
     return this.fb.group({
-      street: [''],
-      cep: [''],
-      neighborhood: [''],
-      city: [''],
-      uf: ['']
+      street: ['', [Validators.required]],
+      cep: ['', [Validators.required]],
+      neighborhood: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      uf: ['', [Validators.required]]
     });
   }
 
@@ -72,7 +96,7 @@ export class PersonEditComponent implements OnInit {
    control.removeAt(i);
  }
 
- clearAllAddress() {
+clearAllAddress() {
   const control = <FormArray>this.form.get('address');
   while(control.length) {
     control.removeAt(control.length - 1);
@@ -82,25 +106,25 @@ export class PersonEditComponent implements OnInit {
 }
 
 
- private getPhones() {
+private getPhones() {
   const numberPatern = '^[0-9.,]+$';
   return this.fb.group({
-    phone: [''],
+    phone: ['', [Validators.required]],
   });
 }
 
 
 addPhones() {
- const control = <FormArray>this.form.get('phones');
- control.push(this.getPhones());
+  const control = <FormArray>this.form.get('phones');
+  control.push(this.getPhones());
 }
 
 /**
 * Remove unit row from form on click delete button
 */
 removePhones(i: number) {
- const control = <FormArray>this.form.get('phones');
- control.removeAt(i);
+  const control = <FormArray>this.form.get('phones');
+  control.removeAt(i);
 }
 
 clearAllPhones() {

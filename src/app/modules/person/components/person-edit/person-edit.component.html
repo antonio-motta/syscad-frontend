@@ -12,7 +12,7 @@
                 <mat-list>
                     <mat-list-item>
                         <mat-form-field class="width-field-30" > 
-                            <input matInput placeholder="Nome" formControlName="name" required>
+                            <input matInput placeholder="Nome" maxlength="80" formControlName="name" required>
                         </mat-form-field>
                     </mat-list-item>
                     
@@ -22,12 +22,15 @@
                         </mat-form-field>
                     </mat-list-item>
                     <mat-list-item>
-                        <mat-form-field class="width-field-20" > 
+                        <mat-form-field class="width-field-20 margin-field" > 
                             <input matInput placeholder="CPF" formControlName="cpf" maxlength="14" masked-input="999.999.999-99" required>
                         </mat-form-field>
                         
                         <mat-form-field class="width-field-10"  > 
-                            <input matInput placeholder="Anivesário" formControlName="birthday"  maxlength="10" masked-input="99/99/9999" required>
+                            <input matInput [matDatepicker]="birthday" maxlength="10"  disabled placeholder="Nascimento" formControlName="birthday">
+                        <mat-datepicker-toggle matSuffix 
+                            [for]="birthday"></mat-datepicker-toggle>
+                        <mat-datepicker touchUi="true" disabled="false" #birthday></mat-datepicker>
                         </mat-form-field>
                     </mat-list-item>
                 </mat-list>
@@ -38,7 +41,7 @@
                         <div [formGroupName]="i">
                             <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="center">
                                 <mat-form-field  class="width-field-20"> 
-                                    <input matInput placeholder="Numero" formControlName="phone" required>
+                                    <input matInput placeholder="Numero" maxlength="15" masked-input="(99) 99999-9999" formControlName="phone" required>
                                 </mat-form-field>
                                 <button  *ngIf="form.get('phones')['controls'].length > 1" type="button" mat-mini-fab color="warn" fxFlex="nogrow"
                                          (click)="removePhones(i)">
@@ -69,7 +72,7 @@
                                     <input matInput placeholder="Logradouro" formControlName="street" required>
                                 </mat-form-field>
                                 <mat-form-field class="width-field-5"> 
-                                    <input matInput placeholder="CEP" formControlName="cep" required>
+                                    <input matInput placeholder="CEP" masked-input="99.999-999" formControlName="cep" required>
                                 </mat-form-field>
                             </mat-list-item>
                            

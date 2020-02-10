@@ -14,6 +14,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { 
   PersonListComponent, 
@@ -23,6 +26,9 @@ import {
 } from './components';
 
 import { SharedModule } from '../shared';
+
+import { PersonService} from './services';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
   
 @NgModule({
   declarations: [
@@ -45,7 +51,13 @@ import { SharedModule } from '../shared';
     MatSnackBarModule,
     MatToolbarModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    TextMaskModule,
     SharedModule
-  ]
+  ],
+  providers: [
+    PersonService,
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }]
 })
 export class PersonModule { }
