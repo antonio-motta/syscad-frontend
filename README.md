@@ -43,7 +43,7 @@ usuário final.
 
 ## Instruções
 
-* [Instrunções][getting-started];
+* [Instruções][getting-started];
 * [Histórico de realease][changelog];
 
 ## Licença
